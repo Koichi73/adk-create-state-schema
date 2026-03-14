@@ -1,6 +1,7 @@
 from google.adk.plugins.base_plugin import BasePlugin
 from google.adk.events import Event, EventActions
 import time
+import json
 
 class CreateStateSchema(BasePlugin):
     def __init__(self) -> None:
@@ -48,4 +49,6 @@ class CreateStateSchema(BasePlugin):
             session = invocation_context.session
             await session_service.append_event(session, system_event)
 
-        print(f"Updated State: {invocation_context.session.state}")
+            # Display the state schema
+            print("Created State Schema:")
+            print(json.dumps(invocation_context.session.state.get("state_schema", {}), indent=2, ensure_ascii=False))
