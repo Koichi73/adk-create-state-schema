@@ -1,14 +1,18 @@
 from google.adk.plugins.base_plugin import BasePlugin
 from google.adk.events import Event, EventActions
+from google.adk.agents import InvocationContext
 import time
 import json
+from typing import Optional
 
 class CreateStateSchema(BasePlugin):
     def __init__(self) -> None:
         super().__init__(name="create_state_schema")
         self.event_count = 0 # for log
 
-    async def on_event_callback(self, invocation_context, event):
+    async def on_event_callback(
+        self, invocation_context: InvocationContext, event: Event
+    ) -> Optional[Event]:
         # Event callback log
         self.event_count += 1
         print(f"[Event Callback Log] Event Count: {self.event_count}, Agent Name: {invocation_context.agent.name}")
@@ -52,3 +56,5 @@ class CreateStateSchema(BasePlugin):
             # Display the state schema
             print("Created State Schema:")
             print(json.dumps(invocation_context.session.state.get("state_schema", {}), indent=2, ensure_ascii=False))
+
+        return None
